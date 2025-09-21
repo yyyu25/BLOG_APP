@@ -1,0 +1,52 @@
+<%= turbo_frame_tag "comments_frame_#{post.id}", data: { comments_toggle_target: "frame" } do %>
+<div class="comments-box"> 
+  <div id="comment_errors_<%= post.id %>"></div>
+  
+  <% if user_signed_in? %>
+    <%= form_with model: [post, Comment.new], local: true, id: "comment_form_#{post.id}" do |f| %>
+      <%= f.text_area :body,
+                      placeholder: "Leave your comment...",
+                      class: "form-control w-100 mb-2",
+                      data: { comment_form: true } %><br>
+      <%= f.submit "Submit", class: "btn btn-outline-secondary", data: { disable_with: "Submitting..." } %>
+    <% end %>
+  <% else %>
+    <p>You must log in to leave your comments...</p>
+  <% end %>
+
+  <% saved_comments = post.comments.select(&:persisted?) %>
+  <% if saved_comments.any? %>
+    <ul class="list-group list-group-flush">
+      <% saved_comments.each do |c| %>
+        <li class="list-group-item">
+          <strong><%= c.user.username %>：</strong>
+          <%= c.body %>
+          <% if c.user == current_user %>
+            <%= link_to "Delete",
+                        post_comment_path(post, c),
+                        data: { turbo_method: :delete, confirm: "Are you sure?" },
+                        class: "btn btn-sm btn-danger" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-muted">No comments yet.</p>
+  <% end %>
+</div>
+<% end %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const forms = document.querySelectorAll('form[data-comment-form]');
+  forms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      const textarea = form.querySelector('textarea[name*="[body]"]');
+      if (textarea && textarea.value.trim() === '') {
+        e.preventDefault();
+        return false;
+      }
+    });
+  });
+});
+</script>

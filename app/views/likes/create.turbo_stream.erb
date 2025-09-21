@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "likes_frame_#{@post.id}" do %>
+  <%= render "posts/likes", post: @post %>
+<% end %>

@@ -1,0 +1,18 @@
+<%= render "home/partial" %>
+<div class="m-5">
+<h1>Edit Post</h1>
+<%= form_with model: @post, local: true do |form| %>
+	<div class="mb-3">
+  	<% form.label :title, class:"form-label" %><br/>
+    <%= form.text_field :title, class:"form-control", placeholder:"Title" %>
+    </div>
+	<div class="mb-3">
+    <% form.label :body, class:"form-label" %>
+    <%= form.text_area :body, class:"form-control", style:"height: 300px;", placeholder:"Content" %>
+  	</div>
+
+ <%= form.submit "Update Post", class: "btn btn-primary" %>
+ <% end %>
+<br/>
+<%= link_to "Back", posts_path %>
+</div>

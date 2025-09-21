@@ -1,0 +1,28 @@
+<turbo-frame id="likes_frame_<%= post.id %>">
+<div class="d-inline-flex align-items-center">
+      <% if user_signed_in? %>
+        <% liked = post.likes.exists?(user_id: current_user.id) %>
+        <% if liked %>
+          <%= button_to post_like_path(post, post.likes.find_by(user_id: current_user.id)),
+                        method: :delete,
+                        data: { turbo_frame: "likes_frame_#{post.id}" },
+                        class: "btn btn-sm btn-link text-danger p-0" do %>
+            <i class="bi bi-heart-fill"></i>
+          <% end %>
+        <% else %>
+          <%= button_to post_likes_path(post),
+                        method: :post,
+                        data: { turbo_frame: "likes_frame_#{post.id}" },
+                        class: "btn btn-sm btn-link text-secondary p-0" do %>
+            <i class="bi bi-heart"></i>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path,
+                    class: "btn btn-sm btn-link text-secondary p-0" do %>
+          <i class="bi bi-heart"></i>
+        <% end %>
+      <% end %>
+      <span class="text-muted ms-3"><%= post.likes.count %></span>
+    </div>
+</turbo-frame>

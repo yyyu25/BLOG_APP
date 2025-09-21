@@ -1,0 +1,15 @@
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3 class="mb-4">Forgot your password?</h3>
+
+      <%= form_with url: reset_send_path, method: :post, local: true do %>
+        <div class="mb-3">
+          <%= label_tag :email, "Email", class: "form-label" %>
+          <%= email_field_tag :email, nil, class: "form-control", required: true, autocomplete: "email" %>
+        </div>
+        <%= submit_tag "Send Verification Code", class: "btn btn-primary w-100" %>
+      <% end %>
+    </div>
+  </div>
+</div>

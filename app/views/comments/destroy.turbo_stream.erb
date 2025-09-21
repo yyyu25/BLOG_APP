@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "comments_frame_#{@post.id}" do %>
+  <%= render "posts/comments", post: @post %>
+<% end %>
+
+<%= turbo_stream.replace "comments_count_#{@post.id}" do %>
+  <span id="comments_count_<%= @post.id %>" class="text-muted"><%= @post.comments.count %></span>
+<% end %>

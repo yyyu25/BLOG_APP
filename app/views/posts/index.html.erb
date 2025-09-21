@@ -1,0 +1,47 @@
+<%= render "home/partial" %>
+<div class="m-5">
+<h1>All Posts</h1>
+
+<ul class="list-unstyled">
+  <% @posts.each do |post| %>
+      <li class="mb-4 p-3 px-4 mx-auto border rounded shadow-sm" >
+        <p>
+          <strong><%= post.user.username %></strong>
+        </p>
+        <p>
+          <%= link_to post.title, post_path(post), class: "link-underline link-underline-opacity-0 link-underline-opacity-75-hover fs-4" 
+           %>
+        </p>
+        <p class= "fs-6" >
+          <%= truncate(post.body, length: 100) %>
+        </p>
+
+        <div data-controller="comments-toggle" data-comments-toggle-src-value="<%= comments_post_path(post) %>" class="d-flex flex-column align-items-start gap-2 mt-2">
+          <div class="d-flex align-items-center gap-3 mt-2">
+            <button data-action="click->comments-toggle#toggle" class="btn btn-sm btn-link text-secondary p-0">
+              <i class="bi bi-chat"></i>
+            </button>
+            <span id="comments_count_<%= post.id %>" class="text-muted ms-1"><%= post.comments.count %></span>
+            <%= render "posts/likes", post: post %>
+          </div>
+          <div style="width:100% ">
+            <turbo-frame id="comments_frame_<%= post.id %>" 
+               data-comments-toggle-target="frame" 
+               style="display:none; width:100%;"></turbo-frame>
+          </div>
+        </div>
+        
+ </li>
+
+ <% end %>
+</ul>
+
+<% if @posts.empty? %>
+    <p>
+      No Posts found.
+      <%= link_to "Create one?", new_post_path, class: "link-underline link-underline-opacity-0" %>
+    </p>
+  <% end %>
+
+</div>
+

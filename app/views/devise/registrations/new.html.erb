@@ -1,0 +1,50 @@
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h2 class="card-title text-center mb-4">Sign up</h2>
+
+      <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), html: { class: "needs-validation" }) do |f| %>
+        <div class="mb-3">
+          <% f.label :username, class: "form-label" %><br />
+          <%= f.text_field :username, class: "form-control", autofocus: true, autocomplete: "username", required: true, placeholder: "Username"  %>
+        </div>
+        
+        <div class="mb-3">
+          <% f.label :email, class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email", required: true, placeholder: "Email" %>
+        </div>
+
+        <div class="mb-3">
+          <% f.label :password, class: "form-label" %>
+          <%= f.password_field :password, class: "form-control", autocomplete: "new-password", required: true, placeholder: @minimum_password_length ? "Password (#{@minimum_password_length} characters minimum)" : "Password" %>
+        </div>
+
+        <div class="mb-3">
+          <% f.label :password, class: "form-label" %>
+          <%= f.password_field :password, class: "form-control", autocomplete: "new-password", required: true, placeholder: "Password comfirmation" %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.submit "Sign up", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <hr>
+      <div class="text-center fs-6">
+        <%= "Already have an account?" %>&nbsp;<%= render "devise/shared/links" %>
+      </div>
+      
+      <% if resource.errors.any? %>
+  <div class="alert alert-danger">
+    <h4>Registration failed:</h4>
+    <ul>
+      <% resource.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+    </div>
+  </div>
+</div>

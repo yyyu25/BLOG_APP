@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "comments_frame_#{@post.id}", data: { comments_toggle_target: "frame" } do %>
+  <%= render "posts/comments", post: @post, comment: local_assigns[:comment] %>
+<% end %>
