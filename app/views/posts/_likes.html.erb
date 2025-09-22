@@ -19,7 +19,8 @@
         <% end %>
       <% else %>
         <%= link_to new_user_session_path,
-                    class: "btn btn-sm btn-link text-secondary p-0" do %>
+            data: { turbo: false },
+            class: "btn btn-sm btn-link text-secondary p-0" do %>
           <i class="bi bi-heart"></i>
         <% end %>
       <% end %>

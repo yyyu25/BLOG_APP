@@ -4,9 +4,16 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.order(created_at: :desc)
+    
+    # Search functionality
     if params[:q].present?
       pattern = "%#{params[:q]}%"
       @posts = @posts.where("title LIKE ? OR body LIKE ?", pattern, pattern)
+    end
+    
+    # Category filtering
+    if params[:category].present?
+      @posts = @posts.where(category: params[:category])
     end
   end
 
@@ -51,7 +58,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :category)
   end
 
   def set_post

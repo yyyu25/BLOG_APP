@@ -9,10 +9,10 @@ Rails.application.routes.draw do
 
   get "home/index"
   get "up" => "rails/health#show", as: :rails_health_check
-  root "home#index"
+  root "posts#index"
 
   resources :posts do
-    # 用于“按下按钮加载显示评论”的懒加载入口（PostsController#comments）
+    # 用于"按下按钮加载显示评论"的懒加载入口（PostsController#comments）
     member do
       get :comments  # /posts/:id/comments  -> posts#comments
     end
@@ -28,4 +28,8 @@ Rails.application.routes.draw do
   # 密码重置
   get  'reset/start', to: 'password_resets#new'
   post 'reset/send',  to: 'password_resets#create'
+  
+  # Profile routes
+  get "profile", to: "users#profile"
+  patch "profile", to: "users#update_profile"
 end

@@ -1,3 +1,63 @@
 <%= render "home/partial" %>
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Welcome to Blog App</h2>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Recent Activity</h4>
+              <p class="text-muted">Stay updated with the latest posts and discussions from our community.</p>
+              <%= link_to "View All Posts", posts_path, class: "btn btn-primary" %>
+            </div>
+            <div class="col-md-6">
+              <h4>Get Started</h4>
+              <p class="text-muted">Join the conversation by creating your own posts and engaging with others.</p>
+              <% if user_signed_in? %>
+                <%= link_to "Create New Post", new_post_path, class: "btn btn-success" %>
+              <% else %>
+                <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-primary" %>
+              <% end %>
+            </div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="bi bi-pencil-square fs-1 text-primary"></i>
+                  <h5 class="card-title mt-2">Write Posts</h5>
+                  <p class="card-text">Share your thoughts and ideas with the community.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="bi bi-chat-dots fs-1 text-success"></i>
+                  <h5 class="card-title mt-2">Engage</h5>
+                  <p class="card-text">Comment on posts and join meaningful discussions.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="bi bi-heart fs-1 text-danger"></i>
+                  <h5 class="card-title mt-2">Connect</h5>
+                  <p class="card-text">Like posts and connect with like-minded people.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

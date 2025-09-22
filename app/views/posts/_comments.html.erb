@@ -2,31 +2,38 @@
 <div class="comments-box"> 
   <div id="comment_errors_<%= post.id %>"></div>
   
-  <% if user_signed_in? %>
-    <%= form_with model: [post, Comment.new], local: true, id: "comment_form_#{post.id}" do |f| %>
-      <%= f.text_area :body,
-                      placeholder: "Leave your comment...",
-                      class: "form-control w-100 mb-2",
-                      data: { comment_form: true } %><br>
-      <%= f.submit "Submit", class: "btn btn-outline-secondary", data: { disable_with: "Submitting..." } %>
-    <% end %>
-  <% else %>
-    <p>You must log in to leave your comments...</p>
+  <%= form_with model: [post, Comment.new], local: true, data: { turbo: false }, id: "comment_form_#{post.id}" do |f| %>
+    <%= f.text_area :body,
+                    placeholder: "Leave your comment...",
+                    class: "form-control w-100 mb-2",
+                    data: { comment_form: true } %><br>
+    <%= f.submit "Submit", class: "btn btn-outline-secondary", data: { disable_with: "Submitting..." } %>
   <% end %>
-
+  
   <% saved_comments = post.comments.select(&:persisted?) %>
   <% if saved_comments.any? %>
     <ul class="list-group list-group-flush">
       <% saved_comments.each do |c| %>
         <li class="list-group-item">
-          <strong><%= c.user.username %>：</strong>
-          <%= c.body %>
-          <% if c.user == current_user %>
-            <%= link_to "Delete",
-                        post_comment_path(post, c),
-                        data: { turbo_method: :delete, confirm: "Are you sure?" },
-                        class: "btn btn-sm btn-danger" %>
-          <% end %>
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <strong><%= c.user.username %></strong>
+                <small class="text-muted">
+                  <i class="bi bi-clock"></i> <%= c.created_at.strftime("%m/%d/%y %I:%M %p") %>
+                </small>
+              </div>
+              <p class="mb-2"><%= c.body %></p>
+            </div>
+            <% if c.user == current_user %>
+              <div class="ms-2">
+                <%= link_to "Delete",
+                            post_comment_path(post, c),
+                            data: { turbo_method: :delete, confirm: "Are you sure?" },
+                            class: "btn btn-sm btn-danger" %>
+              </div>
+            <% end %>
+          </div>
         </li>
       <% end %>
     </ul>

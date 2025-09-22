@@ -1,18 +1,50 @@
 <%= render "home/partial" %>
-<div class="m-5">
-<h1>Edit Post</h1>
-<%= form_with model: @post, local: true do |form| %>
-	<div class="mb-3">
-  	<% form.label :title, class:"form-label" %><br/>
-    <%= form.text_field :title, class:"form-control", placeholder:"Title" %>
-    </div>
-	<div class="mb-3">
-    <% form.label :body, class:"form-label" %>
-    <%= form.text_area :body, class:"form-control", style:"height: 300px;", placeholder:"Content" %>
-  	</div>
 
- <%= form.submit "Update Post", class: "btn btn-primary" %>
- <% end %>
-<br/>
-<%= link_to "Back", posts_path %>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Edit Post</h2>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @post, local: true do |form| %>
+            <div class="mb-3">
+              <%= form.label :title, class: "form-label" %>
+              <%= form.text_field :title, class: "form-control", placeholder: "Enter your post title" %>
+              <% if @post.errors[:title].any? %>
+                <div class="text-danger">
+                  <% @post.errors[:title].each do |message| %>
+                    <small><%= message %></small>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="mb-3">
+              <%= form.label :body, class: "form-label" %>
+              <%= form.text_area :body, class: "form-control", style: "height: 300px;", placeholder: "Write your post content here..." %>
+              <% if @post.errors[:body].any? %>
+                <div class="text-danger">
+                  <% @post.errors[:body].each do |message| %>
+                    <small><%= message %></small>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :category, class: "form-label" %>
+              <%= form.select :category, Post::CATEGORIES, { prompt: "Choose a category" }, { class: "form-select", "aria-label": "Default select example" } %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.submit "Update Post", class: "btn btn-primary" %>
+              <%= link_to "Cancel", post_path(@post), class: "btn btn-secondary ms-2" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
